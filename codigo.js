@@ -19,7 +19,7 @@ function buscarUsuario(array){
     if (busqueda == undefined ){
         alert("su perfil no se encuentra registrado")
     }else{
-        alert("su nombre es" + busqueda.nombre + "su apellido es" + busqueda.apellido + "y su DNI es " + busqueda.dni )
+        alert("su nombre es " + nombre + " su apellido es " + apellido + " y su DNI es " + dni )
     }
 }
 
@@ -54,7 +54,7 @@ const clientes=[]
 
 clientes.push(cliente1)
 
-buscarUsuario(clientes )
+buscarUsuario(clientes)
 
 console.log (clientes)
 
