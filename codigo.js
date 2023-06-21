@@ -1,3 +1,28 @@
+class Cliente {
+    constructor (nombre, apellido, edad, dni){
+        this.nombre= nombre,
+        this.apellido= apellido,
+        this.edad= edad,
+        this.dni= dni
+        
+    }
+    saludo(){
+        alert(`bienvenido ${this.nombre} al banco A ver si ahorra`)
+    } 
+}
+
+function buscarUsuario(array){
+    let dniBuscado= prompt ("ingrese su numero de DNI para ver su perfil")
+    let busqueda = array.filter(
+        (dato) => dato.dni == dniBuscado 
+    )
+    if (busqueda == undefined ){
+        alert("su perfil no se encuentra registrado")
+    }else{
+        alert("su nombre es" + busqueda.nombre + "su apellido es" + busqueda.apellido + "y su DNI es " + busqueda.dni )
+    }
+}
+
 function validarDatos(num){
     while(isNaN(num)){
         num= parseInt(prompt('el valor ingresado no es numerico, vuelva a intentarlo'));
@@ -18,8 +43,23 @@ function calculo (inversion, dias, intereses){
 }
 
 alert('Bienvenido al simulador de plazo fijo del banco AverSiAhorra')
+let nombreIngresado= prompt("ingrese su nombre")
+let apellidoIngresado= prompt("ingrse su apellido")
+let edadIngresada= prompt("ingrese su edad")
+let dniIngresado= prompt("ingrese su numero de dni")
+
+let cliente1= new Cliente( nombreIngresado, apellidoIngresado, edadIngresada, dniIngresado)
+
+const clientes=[]
+
+clientes.push(cliente1)
+
+buscarUsuario(clientes )
+
+console.log (clientes)
+
 let inversion= parseInt( prompt('ingrese el monto que desea invertir'))
-inversionV= validarDatos(inversion)
+let inversionV= validarDatos(inversion)
 if(inversionV != 0 || inversion <= 0 ){
     if (inversion <= 0){
         while(true){
@@ -34,11 +74,11 @@ if(inversionV != 0 || inversion <= 0 ){
 }
 
 let dias= parseInt(prompt('ingrese la cantidad de dias del plazo fijo'))
-diasV= validarDatos(dias)
+let diasV= validarDatos(dias)
 if (diasV != 0){
     dias=diasV
 }
-diasM=minimoDias(dias)
+let diasM=minimoDias(dias)
 if (diasM != 0){
     dias=diasM
 }
