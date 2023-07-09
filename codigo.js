@@ -49,7 +49,7 @@ for( let p of productos){
                             <div class="card-body">
                                 <h5 class="card-title">${p.producto}</h5>
                                 <p class="card-text">${p.precio}.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                                <a href="#" class="btn btn-primary">Agregar al carrito</a>
                             </div>
                             </div>`
     cardsdiv.appendChild(nuevoProducto)
@@ -77,14 +77,11 @@ function buscarProducto(array, elemento){
          }
     }
 
-let buscaRemeras = buscarProducto(productos,"Remera estampada") 
-let buscarPosters =  buscarProducto(productos, "Posters")
-let buscarAccesoriso = buscarProducto(productos,"Accesorios") 
-botonProductoRemeras.onclick = buscaRemeras
-botonProductoPosters.onclick =   buscarPosters
-botonProductoAccesorios.onclick = buscarAccesoriso
 
-
+  
+botonProductoRemeras.onclick= () => {buscarProducto(productos,"Remera estampada")}
+botonProductoPosters.onclick= () => {buscarProducto(productos, "Posters")}  
+botonProductoAccesorios.onclick= () => {buscarProducto(productos,"Accesorios") }
 // let inversion= parseInt( prompt('ingrese el monto que desea invertir'))
 // let inversionV= validarDatos(inversion)
 // if(inversionV != 0 || inversion <= 0 ){
