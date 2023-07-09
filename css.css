@@ -1,0 +1,93 @@
+*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    
+}
+
+header{
+    width: 100%;
+    background-color: rgb(76, 180, 240);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: aliceblue;
+    
+}
+
+header .diegoArmando{
+    margin: 1%;
+    align-items: center;
+}
+
+header h1{
+    font-size: 300%;
+}
+header h2{
+    font-size: 158%;
+}
+
+header nav{
+    align-items: end;
+    justify-self: end;
+
+}
+
+header li{
+    text-decoration: none;
+    list-style: none;
+    padding: 2%;
+    
+    
+}
+
+header ul{
+    display: flex;
+    flex-direction: row;
+    margin-left:5%;
+   
+ 
+
+    
+}
+
+header a{
+    color: aliceblue;
+    font-size: 75%;
+    
+}
+
+main{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 20% 80%;
+}
+main nav{
+    background-color: black;
+    width: 50%;
+}
+
+main nav ul li a{
+    color: aliceblue;
+    font-size: 80%;
+    
+    
+}
+
+main nav ul{
+    margin: 5%;
+    text-decoration: none;
+    list-style: none;
+
+}
+
+#cards{
+    display: flex;
+    flex-direction: row;
+}
+
+#cards img{
+    width: 100%;
+    overflow: hidden;
+}
