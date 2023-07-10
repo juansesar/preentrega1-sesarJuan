@@ -3,7 +3,7 @@
     padding: 0;
     text-decoration: none;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    
+   
 }
 
 header{
@@ -13,7 +13,7 @@ header{
     flex-direction: row;
     align-items: center;
     color: aliceblue;
-    
+   
 }
 
 header .diegoArmando{
@@ -38,8 +38,8 @@ header li{
     text-decoration: none;
     list-style: none;
     padding: 2%;
-    
-    
+   
+   
 }
 
 header ul{
@@ -49,13 +49,13 @@ header ul{
    
  
 
-    
+   
 }
 
 header a{
     color: aliceblue;
     font-size: 75%;
-    
+   
 }
 
 main{
@@ -65,14 +65,14 @@ main{
 }
 main nav{
     background-color: black;
-    width: 50%;
+    width: 150px;
 }
 
 main nav ul li a{
     color: aliceblue;
     font-size: 80%;
-    
-    
+   
+   
 }
 
 main nav ul{
@@ -85,6 +85,7 @@ main nav ul{
 #cards{
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 #cards img{
