@@ -45,21 +45,12 @@ function agregarCarrito(p){
         productosCarrito.push(p)
         localStorage.setItem("carrito", JSON.stringify(productosCarrito))
     console.log(productosCarrito)
-    // Swal.fire({
-    //     title: `Ha agregado un producto al carrito`,
-    //     text:`El producto ${p.producto} ha sido agregado`,
-    //     confirmButtonColor: "black",
-    //     confirmButtonText : "entendido",
-    //     imageUrl: `assets/${p.imagen}`,
-    //     imageHeight: 200
-
-    //  })        
+          
 }
     
 }
 function cargarCarrito(array){
     cardsdiv.innerHTML = ``
-    //primer for each imprime las card
     array.forEach((pCarrito)=>{
         cardsdiv.innerHTML += `
         <div id="${pCarrito.id}" class="card" style="width: 18rem;">
@@ -67,11 +58,26 @@ function cargarCarrito(array){
         <div class="card-body">
             <h5 class="card-title">${pCarrito.producto}</h5>
             <p class="card-text">${pCarrito.precio}.</p>
-            <a href="#" id="agregarcarrito${pCarrito.id}" class="btn btn-primary">eliminar</a>
+            <a href="#" id="elimiarcarrito${pCarrito.id}" class="btn btn-primary">eliminar</a>
         </div>
         </div> `
     
-    })}
+    })
+    array.forEach((pCarrito) => {
+        document.getElementById(`elimiarcarrito${pCarrito.id}`).addEventListener("click", () => {
+           let cardProducto = document.getElementById(`${pCarrito.id}`)
+           cardProducto.remove()
+           let productoEliminar = array.find((p) => p.id == productosCarrito.id)
+           let posicion = array.indexOf(productoEliminar)
+           array.splice(posicion,1)
+           localStorage.setItem("carrito", JSON.stringify(array))
+  
+           
+        
+        })
+     })
+    
+}
 
 function mostrarForm() {
     cardsdiv.innerHTML = ""
@@ -113,18 +119,6 @@ function agregarProducto(array) {
     imagenIngresado.value = ""
     precioIngresado.value = ""
 
-    // Toastify(
-    //     {
-    //         text: `El producto ${producto7.titulo} se ha agregado`,
-    //         duration: 3000,
-    //         gravity: "bottom",//top o buttom,
-    //         position: "center",//left, right o center
-    //         style: {
-    //             color: "white",
-    //             background: "black"
-    //         }
-    //     }
-    // ).showToast()
 }
 
 let cardsdiv = document.getElementById("cards")
@@ -143,7 +137,7 @@ let producto4 = new Producto("4", "Poster", 1500, "./imagenes/poster2.jpg")
 let producto5 = new Producto("5", "Accesorios", 4000, "./imagenes/moneda.jpg")
 let producto6 = new Producto("6", "Accesorios", 3000, "./imagenes/termo.jpg")
 
-// localStorage.setItem()
+
 
 const productos = []
 localStorage.setItem("productos", productos)
