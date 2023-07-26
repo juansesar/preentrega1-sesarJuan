@@ -35,23 +35,39 @@ function mostrarProducto(array) {
                                 </div>`
         cardsdiv.appendChild(nuevoProducto)
         let botonAgregarCarrito = document.getElementById(`agregarcarrito${p.id}`)
-        botonAgregarCarrito.addEventListener("click", () => agregarCarrito(p))
+
+        botonAgregarCarrito.addEventListener("click", () => {
+            console.log(`se ha agregado un producto${p.producto}`)
+            agregarCarrito(p)
+        }
+        )
     }
 }
 
-function agregarCarrito(p){
-    let productoAgregado = productosCarrito.find((elem)=>elem.id == p.id) 
-    if (productoAgregado == undefined){
+function agregarCarrito(p) {
+    let productoAgregado = productosCarrito.find((elem) => elem.id == p.id)
+    if (productoAgregado == undefined) {
         productosCarrito.push(p)
         localStorage.setItem("carrito", JSON.stringify(productosCarrito))
-    console.log(productosCarrito)
-          
+        console.log(productosCarrito)
+        Swal.fire({
+            title: `agregaste un producto al carrito`,
+            icon: "info",
+            timer: 2000,
+            confirmButtonColor: "red",
+            confirmButtonText: "OK",
+            showConfirmButton: false
+   
+         })
+    }
+
 }
-    
-}
-function cargarCarrito(array){
+function cargarCarrito(array) {
     cardsdiv.innerHTML = ``
-    array.forEach((pCarrito)=>{
+    cardsdiv.innerHTML += `
+        <div id="precioTotal" style= "width:100%" >
+        </div> `
+    array.forEach((pCarrito) => {
         cardsdiv.innerHTML += `
         <div id="${pCarrito.id}" class="card" style="width: 18rem;">
         <img src="${pCarrito.imagen}" class="card-img-top" height=300px alt="">
@@ -61,22 +77,25 @@ function cargarCarrito(array){
             <a href="#" id="elimiarcarrito${pCarrito.id}" class="btn btn-primary">eliminar</a>
         </div>
         </div> `
-    
+        
     })
+    
+    calcularTotal(array)
+
     array.forEach((pCarrito) => {
         document.getElementById(`elimiarcarrito${pCarrito.id}`).addEventListener("click", () => {
-           let cardProducto = document.getElementById(`${pCarrito.id}`)
-           cardProducto.remove()
-           let productoEliminar = array.find((p) => p.id == productosCarrito.id)
-           let posicion = array.indexOf(productoEliminar)
-           array.splice(posicion,1)
-           localStorage.setItem("carrito", JSON.stringify(array))
-  
-           
-        
+            let cardProducto = document.getElementById(`${pCarrito.id}`)
+            cardProducto.remove()
+            let productoEliminar = array.find((p) => p.id == pCarrito.id)
+            let posicion = array.indexOf(productoEliminar)
+            array.splice(posicion, 1)
+            localStorage.setItem("carrito", JSON.stringify(array))
+
+            calcularTotal(array)
+
         })
-     })
-    
+    })
+
 }
 
 function mostrarForm() {
@@ -111,13 +130,34 @@ function agregarProducto(array) {
 
     console.log(productos)
 
-    localStorage.setItem("catalogo", JSON.stringify(array))
+    localStorage.setItem("productos", JSON.stringify(array))
     mostrarProducto(array)
 
 
     productoIngresado.value = ""
     imagenIngresado.value = ""
     precioIngresado.value = ""
+
+    Toastify(
+        {
+            text: `El producto ${producto7.producto} se ha agregado`,
+            duration: 3000,
+            gravity: "bottom",//top o buttom,
+            position: "center",//left, right o center
+            style: {
+                color: "white",
+                background: "green"
+            }
+        }
+    ).showToast()
+
+}
+
+function calcularTotal(array) {
+
+    let total = array.reduce((acc, productoCarrito) => acc + productoCarrito.precio, 0)
+    console.log(total)
+    total == 0 ? precioTotal.innerHTML = `No hay productos en el carrito` : precioTotal.innerHTML = `El total es <strong>${total}</strong>`
 
 }
 
@@ -126,11 +166,11 @@ let mostrarCatalogo = document.getElementById("catalogo")
 let botonProductoRemeras = document.getElementById("btnRemeras")
 let botonProductoPosters = document.getElementById("btnposters")
 let botonProductoAccesorios = document.getElementById("btnAccesorios")
-let btnCarrito = document.getElementById("carrito")
+let btnCarrito = document.getElementById("btncarrito")
 let botonVenderProducto = document.getElementById("btnVender")
 
 
-let producto1 = new Producto("1", "Remera estampada", 3000, "./imagenes/remera1.png")
+let producto1 = new Producto("1", "Remera estampada1", 3000, "./imagenes/remera1.png")
 let producto2 = new Producto("2", "Remera estampada", 4000, "./imagenes/remera2.jpg")
 let producto3 = new Producto("3", "Poster", 1000, "./imagenes/poster1.jpg")
 let producto4 = new Producto("4", "Poster", 1500, "./imagenes/poster2.jpg")
@@ -141,13 +181,25 @@ let producto6 = new Producto("6", "Accesorios", 3000, "./imagenes/termo.jpg")
 
 const productos = []
 localStorage.setItem("productos", productos)
-let productosCarrito 
-if(localStorage.getItem("carrito")){
-   productosCarrito = JSON.parse(localStorage.getItem("carrito"))
-}else{
-   productosCarrito = []
-   localStorage.setItem("carrito", productosCarrito)
+
+let productosCarrito
+if (localStorage.getItem("carrito")) {
+    productosCarrito = JSON.parse(localStorage.getItem("carrito"))
+} else {
+    productosCarrito = []
+    localStorage.setItem("carrito", productosCarrito)
 }
+
+if (localStorage.getItem("productos")) {
+    for (let prod of JSON.parse(localStorage.getItem("productos"))) {
+        let prodStock = new Producto(prod.id, prod.producto, prod.precio, prod.imagen)
+        productos.push(prodStock)
+    }
+} else {
+    productos.push(producto1, producto2, producto3, producto4, producto5, producto6)
+    localStorage.setItem("productos", JSON.stringify(productos))
+}
+
 
 productos.push(producto1, producto2, producto3, producto4, producto5, producto6)
 
@@ -174,7 +226,7 @@ botonVenderProducto.addEventListener("click", (e) => {
     mostrarForm()
 })
 
-btncarrito.addEventListener("click", (e) => {
+btnCarrito.addEventListener("click", (e) => {
     e.preventDefault()
     cargarCarrito(productosCarrito)
- })
+})
