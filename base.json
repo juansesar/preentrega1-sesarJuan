@@ -1,0 +1,40 @@
+[
+    {
+        "id": 1,
+        "producto": "Remera estampada",
+        "precio": 3000,
+        "imagen": "./imagenes/remera1.png"
+        
+    },
+    {
+        "id": 2,
+        "producto": "Remera estampada",
+        "precio": 4000,
+        "imagen": "./imagenes/remera2.jpg"
+        
+    },
+    {
+        "id": 3,
+        "producto": "Poster",
+        "precio": 1000,
+        "imagen": "./imagenes/poster1.jpg"
+    },
+    {
+        "id": 4,
+        "producto": "Poster",
+        "precio": 1500,
+        "imagen": "./imagenes/poster2.jpg"
+    },
+    {
+        "id": 5,
+        "producto": "Accesorios",
+        "precio": 4000,
+        "imagen": "./imagenes/moneda.jpg"
+    },
+    {
+        "id": 6,
+        "producto": "Accesorios",
+        "precio": 3000,
+        "imagen": "./imagenes/termo.jpg"
+    }
+]

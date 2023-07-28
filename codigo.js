@@ -64,9 +64,7 @@ function agregarCarrito(p) {
 }
 function cargarCarrito(array) {
     cardsdiv.innerHTML = ``
-    cardsdiv.innerHTML += `
-        <div id="precioTotal" style= "width:100%" >
-        </div> `
+    
     array.forEach((pCarrito) => {
         cardsdiv.innerHTML += `
         <div id="${pCarrito.id}" class="card" style="width: 18rem;">
@@ -79,8 +77,17 @@ function cargarCarrito(array) {
         </div> `
         
     })
-    
+    cardsdiv.innerHTML += `
+        <div id="precioTotal" style= "width:100%" >
+        
+        </div> 
+        `
     calcularTotal(array)
+    
+    
+    
+
+    
 
     array.forEach((pCarrito) => {
         document.getElementById(`elimiarcarrito${pCarrito.id}`).addEventListener("click", () => {
@@ -157,8 +164,41 @@ function calcularTotal(array) {
 
     let total = array.reduce((acc, productoCarrito) => acc + productoCarrito.precio, 0)
     console.log(total)
-    total == 0 ? precioTotal.innerHTML = `No hay productos en el carrito` : precioTotal.innerHTML = `El total es <strong>${total}</strong>`
+    total == 0 ? precioTotal.innerHTML = `No hay productos en el carrito` : precioTotal.innerHTML = `El total es <strong>${total}</strong> <a href="#" id="finalizar" class="btn btn-primary">Comprar</a>`
+    
+}
 
+function finalizarCompra(array) {
+        console.log("ando")
+        swal.fire({
+        title:"¿esta seguro que desea realizar la compra?",
+        icon: "info",
+        showCancerButton: true,
+        confrimButtonText: "si,seguro",
+        cancelButtonText: "no,no quiero",
+        confirmButtonColor: "green",
+        cancelButtonColor: "red",
+    }).then((result) =>{
+        if(result.isConfirmed){
+            swal.fire({
+                title: "compra realizada",
+                icon:"success",
+                text:"la compra se ha sido realizada",
+                confirmButtonColor:"green",
+                timer: 3500
+            })
+            productosCarrito=[]
+        }else{
+            swal.fire({
+                title: "compra no realizada",
+                icon:"info",
+                text:"la compra no ha sido realizada",
+                confirmButtonColor:"green",
+                timer: 3500
+            })
+        }
+    })
+    console.log("ando")
 }
 
 let cardsdiv = document.getElementById("cards")
@@ -168,14 +208,15 @@ let botonProductoPosters = document.getElementById("btnposters")
 let botonProductoAccesorios = document.getElementById("btnAccesorios")
 let btnCarrito = document.getElementById("btncarrito")
 let botonVenderProducto = document.getElementById("btnVender")
+let botonComprar= document.getElementById("finalizar")
 
 
-let producto1 = new Producto("1", "Remera estampada1", 3000, "./imagenes/remera1.png")
-let producto2 = new Producto("2", "Remera estampada", 4000, "./imagenes/remera2.jpg")
-let producto3 = new Producto("3", "Poster", 1000, "./imagenes/poster1.jpg")
-let producto4 = new Producto("4", "Poster", 1500, "./imagenes/poster2.jpg")
-let producto5 = new Producto("5", "Accesorios", 4000, "./imagenes/moneda.jpg")
-let producto6 = new Producto("6", "Accesorios", 3000, "./imagenes/termo.jpg")
+// let producto1 = new Producto("1", "Remera estampada", 3000, "./imagenes/remera1.png")
+// let producto2 = new Producto("2", "Remera estampada", 4000, "./imagenes/remera2.jpg")
+// let producto3 = new Producto("3", "Poster", 1000, "./imagenes/poster1.jpg")
+// let producto4 = new Producto("4", "Poster", 1500, "./imagenes/poster2.jpg")
+// let producto5 = new Producto("5", "Accesorios", 4000, "./imagenes/moneda.jpg")
+// let producto6 = new Producto("6", "Accesorios", 3000, "./imagenes/termo.jpg")
 
 
 
@@ -190,18 +231,32 @@ if (localStorage.getItem("carrito")) {
     localStorage.setItem("carrito", productosCarrito)
 }
 
+const cargarProductos= async () => {
+    const res= await fetch("./base.json")
+    const datos= await res.json()
+    for(let prod of datos){
+        let prodDatos = new Producto(prod.id, prod.producto, prod.precio, prod.imagen)
+        productos.push(prodDatos)
+        localStorage.setItem("productos", JSON.stringify(productos))
+    }
+}
+
 if (localStorage.getItem("productos")) {
     for (let prod of JSON.parse(localStorage.getItem("productos"))) {
         let prodStock = new Producto(prod.id, prod.producto, prod.precio, prod.imagen)
         productos.push(prodStock)
     }
 } else {
-    productos.push(producto1, producto2, producto3, producto4, producto5, producto6)
-    localStorage.setItem("productos", JSON.stringify(productos))
+    cargarProductos()
+    
+    
 }
 
 
-productos.push(producto1, producto2, producto3, producto4, producto5, producto6)
+
+
+
+
 
 mostrarCatalogo.addEventListener("click", (e) => {
     e.preventDefault()
@@ -229,4 +284,8 @@ botonVenderProducto.addEventListener("click", (e) => {
 btnCarrito.addEventListener("click", (e) => {
     e.preventDefault()
     cargarCarrito(productosCarrito)
+})
+
+botonComprar.addEventListener("click", () => {
+    finalizarCompra(productosCarrito)
 })
