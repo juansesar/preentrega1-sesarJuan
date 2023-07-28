@@ -57,14 +57,13 @@ function agregarCarrito(p) {
             confirmButtonColor: "red",
             confirmButtonText: "OK",
             showConfirmButton: false
-   
-         })
+
+        })
     }
 
 }
 function cargarCarrito(array) {
     cardsdiv.innerHTML = ``
-    
     array.forEach((pCarrito) => {
         cardsdiv.innerHTML += `
         <div id="${pCarrito.id}" class="card" style="width: 18rem;">
@@ -75,7 +74,6 @@ function cargarCarrito(array) {
             <a href="#" id="elimiarcarrito${pCarrito.id}" class="btn btn-primary">eliminar</a>
         </div>
         </div> `
-        
     })
     cardsdiv.innerHTML += `
         <div id="precioTotal" style= "width:100%" >
@@ -83,12 +81,6 @@ function cargarCarrito(array) {
         </div> 
         `
     calcularTotal(array)
-    
-    
-    
-
-    
-
     array.forEach((pCarrito) => {
         document.getElementById(`elimiarcarrito${pCarrito.id}`).addEventListener("click", () => {
             let cardProducto = document.getElementById(`${pCarrito.id}`)
@@ -125,26 +117,17 @@ function mostrarForm() {
 }
 
 function agregarProducto(array) {
-
     let productoIngresado = document.getElementById("formProducto")
     let precioIngresado = document.getElementById("formPrecio")
     let imagenIngresado = document.getElementById("formimegen")
-
-
     const producto7 = new Producto(array.length + 1, productoIngresado.value, precioIngresado.value, imagenIngresado)
-
     array.push(producto7)
-
     console.log(productos)
-
     localStorage.setItem("productos", JSON.stringify(array))
     mostrarProducto(array)
-
-
     productoIngresado.value = ""
     imagenIngresado.value = ""
     precioIngresado.value = ""
-
     Toastify(
         {
             text: `El producto ${producto7.producto} se ha agregado`,
@@ -165,35 +148,41 @@ function calcularTotal(array) {
     let total = array.reduce((acc, productoCarrito) => acc + productoCarrito.precio, 0)
     console.log(total)
     total == 0 ? precioTotal.innerHTML = `No hay productos en el carrito` : precioTotal.innerHTML = `El total es <strong>${total}</strong> <a href="#" id="finalizar" class="btn btn-primary">Comprar</a>`
-    
+    let botonComprar = document.getElementById("finalizar")
+    botonComprar.addEventListener("click", () => {
+        finalizarCompra(productosCarrito)
+    })
+
 }
 
 function finalizarCompra(array) {
-        console.log("ando")
-        swal.fire({
-        title:"¿esta seguro que desea realizar la compra?",
+    console.log("ando")
+    swal.fire({
+        title: "¿esta seguro que desea realizar la compra?",
         icon: "info",
-        showCancerButton: true,
-        confrimButtonText: "si,seguro",
+        showCancelButton: true,
+        confirmButtonText: "si,seguro",
         cancelButtonText: "no,no quiero",
         confirmButtonColor: "green",
         cancelButtonColor: "red",
-    }).then((result) =>{
-        if(result.isConfirmed){
+    }).then((result) => {
+        if (result.isConfirmed) {
             swal.fire({
                 title: "compra realizada",
-                icon:"success",
-                text:"la compra se ha sido realizada",
-                confirmButtonColor:"green",
+                icon: "success",
+                text: "la compra se ha sido realizada",
+                confirmButtonColor: "green",
                 timer: 3500
             })
-            productosCarrito=[]
-        }else{
+        productosCarrito = []
+        localStorage.removeItem("carrito")
+        cargarCarrito(productosCarrito)
+        } else {
             swal.fire({
                 title: "compra no realizada",
-                icon:"info",
-                text:"la compra no ha sido realizada",
-                confirmButtonColor:"green",
+                icon: "info",
+                text: "la compra no ha sido realizada",
+                confirmButtonColor: "green",
                 timer: 3500
             })
         }
@@ -208,17 +197,6 @@ let botonProductoPosters = document.getElementById("btnposters")
 let botonProductoAccesorios = document.getElementById("btnAccesorios")
 let btnCarrito = document.getElementById("btncarrito")
 let botonVenderProducto = document.getElementById("btnVender")
-let botonComprar= document.getElementById("finalizar")
-
-
-// let producto1 = new Producto("1", "Remera estampada", 3000, "./imagenes/remera1.png")
-// let producto2 = new Producto("2", "Remera estampada", 4000, "./imagenes/remera2.jpg")
-// let producto3 = new Producto("3", "Poster", 1000, "./imagenes/poster1.jpg")
-// let producto4 = new Producto("4", "Poster", 1500, "./imagenes/poster2.jpg")
-// let producto5 = new Producto("5", "Accesorios", 4000, "./imagenes/moneda.jpg")
-// let producto6 = new Producto("6", "Accesorios", 3000, "./imagenes/termo.jpg")
-
-
 
 const productos = []
 localStorage.setItem("productos", productos)
@@ -231,10 +209,10 @@ if (localStorage.getItem("carrito")) {
     localStorage.setItem("carrito", productosCarrito)
 }
 
-const cargarProductos= async () => {
-    const res= await fetch("./base.json")
-    const datos= await res.json()
-    for(let prod of datos){
+const cargarProductos = async () => {
+    const res = await fetch("./base.json")
+    const datos = await res.json()
+    for (let prod of datos) {
         let prodDatos = new Producto(prod.id, prod.producto, prod.precio, prod.imagen)
         productos.push(prodDatos)
         localStorage.setItem("productos", JSON.stringify(productos))
@@ -248,15 +226,9 @@ if (localStorage.getItem("productos")) {
     }
 } else {
     cargarProductos()
-    
-    
+
+
 }
-
-
-
-
-
-
 
 mostrarCatalogo.addEventListener("click", (e) => {
     e.preventDefault()
@@ -286,6 +258,3 @@ btnCarrito.addEventListener("click", (e) => {
     cargarCarrito(productosCarrito)
 })
 
-botonComprar.addEventListener("click", () => {
-    finalizarCompra(productosCarrito)
-})

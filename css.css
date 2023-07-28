@@ -64,6 +64,7 @@ header a{
 
 main{
     width: 100%;
+    height: 100%;
     display: grid;
     grid-template-columns: 20% 80%;
 }
@@ -90,7 +91,7 @@ main section{
     background-image: url("./imagenes/back.jpg");
     display:flex;
     width: 100%;
-    height:500px;
+    
     margin: 0%;
     padding: 0%;
 
