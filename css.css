@@ -70,7 +70,7 @@ main{
 }
 main nav{
     background-color: black;
-    width: 150px;
+    /* width: 150px; */
 }
 
 main nav ul li a{
@@ -93,7 +93,7 @@ main section{
     width: 100%;
     
     margin: 0%;
-    padding: 0%;
+    padding: 10%;
 
 }
 

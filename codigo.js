@@ -132,8 +132,8 @@ function agregarProducto(array) {
         {
             text: `El producto ${producto7.producto} se ha agregado`,
             duration: 3000,
-            gravity: "bottom",//top o buttom,
-            position: "center",//left, right o center
+            gravity: "bottom",
+            position: "center",
             style: {
                 color: "white",
                 background: "green"
@@ -187,7 +187,6 @@ function finalizarCompra(array) {
             })
         }
     })
-    console.log("ando")
 }
 
 let cardsdiv = document.getElementById("cards")
@@ -226,8 +225,6 @@ if (localStorage.getItem("productos")) {
     }
 } else {
     cargarProductos()
-
-
 }
 
 mostrarCatalogo.addEventListener("click", (e) => {
